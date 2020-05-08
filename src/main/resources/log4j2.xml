@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%highlight{%d{MMM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n}{FATAL=red, ERROR=red,
+                    WARN=blue, INFO=white, DEBUG=green, TRACE=white}
+                </pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="RollingFile1"
+                     fileName="./logs1/spring-boot-logger-log4j2.csv"
+                     filePattern="./logs1/$${date:yyyy-MM}/Simulated-data-%d{-dd-MMMM-yyyy}-%i.csv">
+
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches
+                    10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                        size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile1" />
+        </Root>
+
+        <!-- LOG "com.baeldung*" at TRACE level -->
+        <Logger name="FilteredLog" level="info">
+            <AppenderRef ref="RollingFile1" />
+        </Logger>
+    </Loggers>
+
+</Configuration>
