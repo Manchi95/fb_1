@@ -370,20 +370,17 @@ async function submitData() {
             });
 
 
-        if (!getResponse.ok) {
+if (!getResponse.ok) {
 
-            if (
-                getResponse.status === 401 ||
-                getResponse.status === 403
-            ) {
+    const errorText = await getResponse.text();
 
-                githubToken = "";
-
-                throw new Error(
-                    "GitHub login/token failed."
-                );
-
-            }
+    throw new Error(
+        "GitHub Error " +
+        getResponse.status +
+        ": " +
+        errorText
+    );
+}
 
             if (getResponse.status === 404) {
 
