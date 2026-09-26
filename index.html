@@ -144,13 +144,13 @@
    CHANGE THESE SETTINGS
    ================================================== */
 
-const OWNER = "Manchi9";
+const OWNER = "Manchi95";
 
 const REPO = "fb_1";
 
 const FILE_PATH = "abc.csv";
 
-const BRANCH = "main";
+const BRANCH = "master";
 
 
 /* ==================================================
@@ -349,52 +349,26 @@ async function submitData() {
             BRANCH;
 
 
-        const getResponse =
-            await fetch(fileUrl, {
-
-                method: "GET",
-
-                headers: {
-
-                    "Authorization":
-                        "Bearer " + token,
-
-                    "Accept":
-                        "application/vnd.github+json",
-
-                    "X-GitHub-Api-Version":
-                        "2022-11-28"
-
-                }
-
-            });
-
-
-if (!getResponse.ok) {
-
-    const errorText = await getResponse.text();
-
-    throw new Error(
-        "GitHub Error " +
-        getResponse.status +
-        ": " +
-        errorText
-    );
-}
-
-            if (getResponse.status === 404) {
-
-                throw new Error(
-                    "abc.csv or repository was not found."
-                );
-
+        const getResponse = await fetch(fileUrl, {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28"
             }
+        });
 
+        if (!getResponse.ok) {
+            if (getResponse.status === 404) {
+                throw new Error("abc.csv or repository was not found.");
+            }
+            const errorText = await getResponse.text();
             throw new Error(
-                "Unable to read abc.csv."
+                "GitHub Error " + getResponse.status + ": " + errorText
             );
-
         }
+
+        const fileInfo = await getResponse.json();
 
 
         const fileInfo =
